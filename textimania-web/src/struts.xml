@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <constant name="struts.action.extension" value="action" />
+	<constant name="struts.serve.static" value="true" />    
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.objectFactory" value="spring" />    
+    <constant name="struts.devMode" value="true" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	<constant name="struts.enable.SlashesInActionNames" value="true" />
+	<constant name="struts.mapper.alwaysSelectFullNamespace" value="false" />
+    
+    <package name="default" extends="struts-default, json-default">
+	
+		<global-results>
+	    	<result name="home">/index.jsp</result>
+	    	<result name="pause">/pause.jsp</result>
+	    	<result name="pause">/dashboard.jsp</result>
+	    </global-results>
+    
+        <action name="contestant" class="contestantAction">
+      		<result name="success" type="stream">
+            	<param name="contentType">application/json</param>
+                <param name="inputName">jsonStream</param>
+                <param name="bufferSize">1024</param>
+            </result>		
+		</action>		    	
+	
+		<action name="host" class="hostAction">
+			<result name="listResults">/WEB-INF/jsp/results.jsp</result>
+			<result name="success">/WEB-INF/jsp/countDown.jsp</result>
+			<result name="winner">/WEB-INF/jsp/winner.jsp</result>
+			<result name="dashboard">/WEB-INF/jsp/dashboard.jsp</result>
+		</action>		    	
+	</package>
+	
+    <package name="ajax" namespace="/ajax" extends="default">		
+	
+		<global-results>
+	    	<result name="home">/index.jsp</result>
+	    	<result name="pause">/pause.jsp</result>
+	    	<result name="pause">/dashboard.jsp</result>
+	    </global-results>
+        
+        <action name="host" class="hostAction">
+			<result name="countDown">/WEB-INF/jsp/countDown.jsp</result>
+			<result name="success">/WEB-INF/jsp/countDown.jsp</result>
+			<result name="appendResponse">/WEB-INF/jsp/ajax/appendResponse.jsp</result>
+		</action>		    	
+    </package>
+</struts>
